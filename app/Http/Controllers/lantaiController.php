@@ -76,11 +76,11 @@ class lantaiController extends Controller
     {
         $request->validate( [
             'lantai' => 'required|max:3',
-            'gedung' => 'required',
+            'gedung_id' => 'required',
         ],
         [
             'lantai' => 'lantai tidak ada',
-            'gedung' => 'Pilih gedung terlebih dahulu',
+            'gedung_id' => 'Pilih gedung terlebih dahulu',
         ]
         );
         $lantai = Lantai::findOrFail($id);

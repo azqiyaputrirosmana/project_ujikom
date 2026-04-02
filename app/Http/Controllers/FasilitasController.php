@@ -29,27 +29,21 @@ class FasilitasController extends Controller
      */
     public function store(Request $request)
     {
-        $request -> validate([
-            'nama_fasilitas' => 'required',
+        $request->validate(
+            [
+                'nama_fasilitas' => 'required',
+            ],
+            [
+                'nama_fasilitas.required' => 'Nama fasilitas harus diisi',
+            ]
+        );
 
-        ], 
-    [
-        'nama_fasilitas' => 'Nama fasilitas harus diisi'
-    ]);
-        $fasilitas = new Fasilitas();
-        $fasilitas->nama_fasilitas  = $request->nama_fasilitas;
-        $fasilitas->save();
-        toast('fasilitas berhasil ditambahkan', 'success')->position('bottom-end');
+        Fasilitas::create([
+            'nama_fasilitas' => $request->nama_fasilitas,
+        ]);
+
+        toast('Fasilitas berhasil ditambahkan', 'success')->position('bottom-end');
         return redirect()->route('fasilitas.index');
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        $fasilitas = Fasilitas::findOrFail($id);
-        return view('fasilitas.show');
     }
 
     /**
@@ -59,7 +53,6 @@ class FasilitasController extends Controller
     {
         $fasilitas = Fasilitas::findOrFail($id);
         return view('admin.fasilitas.edit', compact('fasilitas'));
-
     }
 
     /**
@@ -67,16 +60,20 @@ class FasilitasController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        $request -> validate([
-            'nama_fasilitas' => 'required',
+        $request->validate(
+            [
+                'nama_fasilitas' => 'required',
+            ],
+            [
+                'nama_fasilitas.required' => 'Nama fasilitas harus diisi',
+            ]
+        );
 
-        ], 
-    [
-        'nama_fasilitas' => 'Nama fasilitas harus diisi'
-    ]);
         $fasilitas = Fasilitas::findOrFail($id);
-        $fasilitas->nama_fasilitas = $request->nama_fasilitas;
-        $fasilitas->save();
+        $fasilitas->update([
+            'nama_fasilitas' => $request->nama_fasilitas,
+        ]);
+
         toast('Data fasilitas berhasil diperbarui', 'success')->position('bottom-end');
         return redirect()->route('fasilitas.index');
     }
@@ -88,7 +85,8 @@ class FasilitasController extends Controller
     {
         $fasilitas = Fasilitas::findOrFail($id);
         $fasilitas->delete();
-        toast('fasilitas berhasil dihapus', 'success')->position('bottom-end');
+
+        toast('Fasilitas berhasil dihapus', 'success')->position('bottom-end');
         return back();
     }
 }

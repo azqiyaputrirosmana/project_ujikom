@@ -83,17 +83,17 @@
             <div class="container-xxl flex-grow-1 container-p-y">
               <div class="row">
                 <div class="col">
-                    <h2>Edit Data Petugas</h2>
+                    <h2>Detail Data Petugas</h2>
                   <form action="{{ route('petugas.show', $petugas->id) }}" class="form" method="post">
                     
-                    <label for="">Nama Petugas</label>disabled
+                    <label for="">Nama Petugas</label>
                     <input type="text" value="{{ $petugas->name}}" disabled class="form-control" name="name">
 
                     <label for="">Email</label>
-                    <input type="email" value="{{$petugas->email}}" disa class="form-control" name="email">
+                    <input type="email" value="{{$petugas->email}}" disabled class="form-control" name="email">
 
                     <label for="">Password</label>
-                    <input type="password" value="{{ $petugas->password }}" class="form-control" name="password">
+                    <input type="password" value="{{ $petugas->password }}" disabled class="form-control" name="password">
                     
                     
                   </form>
@@ -104,14 +104,7 @@
             <!-- / Content -->
 
             <!-- Footer -->
-            <div class="buy-now">
-      <a
-        href="{{ route('petugas.create') }}"
-        target="_blank"
-        class="btn btn-info btn-buy-now"
-        >Tambah Petugas</a
-      >
-    </div>
+            
             <!-- / Footer -->
 
             <div class="content-backdrop fade"></div>

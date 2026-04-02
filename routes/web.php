@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\FasilitasController;
 use App\Http\Controllers\FrontendController;
 use App\Http\Controllers\GedungController;
@@ -18,20 +19,19 @@ Route::get('/tentang', [FrontendController::class, 'about'])->name('tentang');
 Route::get('/gedung/{id}', [FrontendController::class, 'filter'])->name('ruangan.filter');
 Route::get('/{id}/detail', [FrontendController::class, 'show'])->name('detail.show');
 
-
 Auth::routes();
+Route::post('/login', [LoginController::class, 'login'])->name('login');
 
 Route::prefix('dashboard')->middleware('auth', Admin::class)->group(function (){
     Route::get('/', [HomeController::class, 'index'])->name('admin.index');
+    
     Route::resource('kategori', KategoriController::class);
-     Route::resource('petugas', PetugasController::class);
-     Route::resource('gedung', GedungController::class);
-     Route::resource('lantai', lantaiController::class);
-     Route::resource('fasilitas', FasilitasController::class);
-     Route::resource('ruangan',RuanganController::class); 
+    Route::resource('petugas', PetugasController::class);
+    Route::resource('gedung', GedungController::class);
+    Route::resource('lantai', lantaiController::class);
+    Route::resource('fasilitas', FasilitasController::class);
+    Route::resource('ruangan',RuanganController::class); 
+
+    // ✅ TAMBAHAN (TIDAK MENGUBAH YANG LAIN)
+    Route::delete('/foto/{id}', [RuanganController::class, 'destroyFoto'])->name('foto.destroy');
 });
-
-
-
-
-

@@ -5,10 +5,10 @@
               <div class="row">
                 <div class="col">
                   <div>
-                    <a href="{{ route('gedung.create') }}" class="btn btn-info">Tambah Gedung</a>
+                    <a href="{{ route('gedung.create') }}" class="btn btn-info mb-2">Tambah Gedung</a>
                   </div>
                   <table>
-                    <table class="table" id="dataGedung">
+                    <table class="table mt-3" id="dataGedung">
                     <thead>
                       <th>No</th>
                       <th>Nama Gedung</th>

@@ -10,12 +10,12 @@
                   <div class="buy-now">
           <a
         href="{{ route('lantai.create') }}"
-        class="btn btn-info "
+        class="btn btn-info mb-2"
         >Tambah lantai</a
       >
     </div>
                   <table>
-                    <table class="table" id="dataLantai">
+                    <table class="table mt-3" id="dataLantai">
                     <thead>
                       <th>No</th>
                       <th>Lantai</th>

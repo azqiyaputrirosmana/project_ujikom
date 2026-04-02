@@ -13,7 +13,7 @@
                   <div>
                     <a href="{{ route('kategori.create') }}"class="btn btn-info mb-3">Tambah Kategori</a>
                   </div>
-                    <table class="table" id="dataKategori">
+                    <table class="table mt-3" id="dataKategori">
                       @include('sweetalert::alert')
                     <thead>
                       <th>No</th>
@@ -119,7 +119,6 @@ function confirmDelete(form) {
     return false;
 }
 </script>
-
 @endpush
 
   

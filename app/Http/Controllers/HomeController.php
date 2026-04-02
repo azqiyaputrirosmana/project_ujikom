@@ -28,13 +28,19 @@ class HomeController extends Controller
      */
     public function index()
     {
+        // KODE LAMA (TIDAK DIUBAH)
         $fasilitas = Fasilitas::all();
         $gedung = Gedung::all();
         $ruangan = Ruangan::all();
-        return view('admin.index', compact('fasilitas', 'gedung', 'ruangan'));
-    }
 
-    
+      
+
+        return view('admin.index', compact(
+            'fasilitas',
+            'gedung',
+            'ruangan',
+        ));
+    }
 
     public function profile()
     {

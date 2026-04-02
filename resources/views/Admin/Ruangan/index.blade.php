@@ -1,149 +1,146 @@
 @extends('layouts.admin')
 
 @section('content')
+@php
+    use Illuminate\Support\Str;
+@endphp
 
+<div class="content-wrapper">
+    <div class="container-xxl container-p-y">
 
-          <!-- Content wrapper -->
-          <div class="content-wrapper">
-            <!-- Content -->
+        <a href="{{ route('ruangan.create') }}" class="btn btn-info mb-3">
+            Tambah Ruangan
+        </a>
 
-            <div class="container-xxl flex-grow-1 container-p-y">
-              <div class="row">
-                <div class="col">
-                  <div>
-                    <a href="{{ route('ruangan.create') }}"class="btn btn-info mb-3">Tambah Ruangan</a>
-                  </div>
-                    <table class="responsive table "  id="dataRuangan">
-                      @include('sweetalert::alert')
-                    <thead>
-                      <th>No</th>
-                      <th>Nama Ruangan</th>
-                      <th>Kategori</th>
-                      <th>Lokasi</th>
-                      <th>Fasilitas</th>
-                      <th>Deskripsi</th>
-                      
-                      <th>Gambar</th>
-                      <th>Denah</th>
-                      <th>Aksi</th>
-                    </thead>
-                     <tbody>
-                      @foreach ($ruangan as $ruang)
-                     <tr>
+        <table class="table table-bordered" id="dataRuangan">
+            <thead>
+                <tr>
+                    <th>No</th>
+                    <th>Nama</th>
+                    <th>Kategori</th>
+                    <th>Lokasi</th>
+                    <th>Fasilitas</th>
+                    <th>Gambar</th>
+                    <th>Galeri</th>
+                    <th>Denah</th>
+                    <th>Aksi</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                @foreach ($ruangan as $ruang)
+                    <tr>
                         <td>{{ $loop->iteration }}</td>
-                        <td>{{ $ruang->nama_ruangan}}</td>
-                        <td>{{ $ruang->kategori->kategori}}</td>
-                        <td>Lantai {{ $ruang->lantai->lantai }} Gedung {{ $ruang->lantai->gedung->nama_gedung }}</td>
+
+                        <td>{{ $ruang->nama_ruangan }}</td>
+
                         <td>
-                          <ol>
-                          @foreach ($ruang->fasilitas as $fas)
-                            <li>{{ $fas->nama_fasilitas }} </li>
-                          @endforeach
-                          </ol>
+                            {{ $ruang->kategori->kategori ?? '-' }}
                         </td>
-                        <td > <p alt="{{ $ruang->deskripsi }}">{{Str::limit($ruang->deskripsi, 10, '...') }}</p> </td>
+
                         <td>
-                            @if($ruang->gambar)
-                            <a href="{{ asset('storage/'.$ruang->gambar) }}">
-                                <img src="{{asset('storage/'.$ruang->gambar)  }}" width="50px" height="50px" alt="">
-                            </a>
-                                @else
-                                <p>Tidak Ada</p>
-                            
-                            @endif
+                            Lantai {{ $ruang->lantai->lantai ?? '-' }}
+                            - {{ $ruang->lantai->gedung->nama_gedung ?? '-' }}
                         </td>
+
+                        {{-- FASILITAS --}}
                         <td>
-                          @if($ruang->denah)
-                          <a href="{{ asset('storage/'.$ruang->denah) }}">
-                                <img src="{{asset('storage/'.$ruang->denah)  }}" width="50px" height="50px" alt="">
-                                </a>
+                            @if ($ruang->fasilitas->count())
+                                <ul class="mb-0 ps-3">
+                                    @foreach ($ruang->fasilitas as $fas)
+                                        <li>{{ $fas->nama_fasilitas }}</li>
+                                    @endforeach
+                                </ul>
                             @else
-                                <p>Tidak Ada</p>
-                            
+                                <span class="text-muted">-</span>
                             @endif
                         </td>
 
-                        
-                        <td >
-                          <div class="d-flex justify-content-between">
-                              <a href="{{ route('ruangan.edit', $ruang->id) }}" class="btn btn-success">Edit</a>
-                        <a href="{{ route('ruangan.show', $ruang->id) }}" class="btn btn-warning">Detail </a>
-                        <form action="{{ route('ruangan.destroy', $ruang->id) }}" onsubmit="return confirmDelete(this);" method="post" style="display:inline;" >
-                            @csrf
-                            @method('DELETE')
-                            <button  class="btn btn-danger">Hapus</button>
-                        </form>
-                          </div>
-                        
+                        {{-- GAMBAR UTAMA --}}
+                        <td>
+                            @if ($ruang->gambar)
+                                <img src="{{ asset('storage/' . $ruang->gambar) }}" width="50" alt="Gambar Utama">
+                            @else
+                                <span class="text-muted">-</span>
+                            @endif
                         </td>
-                      </tr>
-                      @endforeach
-                      </tbody>
-                  </table>
-                  
-                </div>
-              </div>
-            </div>
-            <!-- / Content -->
 
-            <!-- Footer -->
-            
-            <!-- / Footer -->
+                        {{-- GALERI (Perbaikan: tampilkan foto galeri dengan rapi max 5 foto) --}}
+                        <td>
+                            @if ($ruang->galeri->count())
+                                <div class="d-flex flex-wrap">
+                                    @foreach ($ruang->galeri as $foto)
+                                        <img
+                                            src="{{ asset('storage/' . $foto->gambar) }}"
+                                            width="40"
+                                            height="40"
+                                            class="me-1 mb-1 rounded"
+                                            alt="Foto Galeri Ruangan"
+                                            style="object-fit: cover; border: 1px solid #ddd;"
+                                        >
+                                    @endforeach
+                                </div>
+                            @else
+                                <span class="text-muted">Kosong</span>
+                            @endif
+                        </td>
 
-            <div class="content-backdrop fade"></div>
-          </div>
-          <!-- Content wrapper -->
-        </div>
-        <!-- / Layout page -->
-      </div>
+                        {{-- DENAH --}}
+                        <td>
+                            @if ($ruang->denah)
+                                <img src="{{ asset('storage/' . $ruang->denah) }}" width="50" alt="Denah Ruangan">
+                            @else
+                                <span class="text-muted">-</span>
+                            @endif
+                        </td>
 
-      <!-- Overlay -->
-      <div class="layout-overlay layout-menu-toggle"></div>
+                        {{-- AKSI --}}
+                        <td>
+                            <a href="{{ route('ruangan.show', $ruang->id) }}" class="btn btn-warning btn-sm">
+                                Detail
+                            </a>
+
+                            <a href="{{ route('ruangan.edit', $ruang->id) }}" class="btn btn-success btn-sm">
+                                Edit
+                            </a>
+
+                            <form
+                                action="{{ route('ruangan.destroy', $ruang->id) }}"
+                                method="POST"
+                                class="d-inline"
+                                onsubmit="confirmDelete(event,this)"
+                            >
+                                @csrf
+                                @method('DELETE')
+                                <button class="btn btn-danger btn-sm">
+                                    Hapus
+                                </button>
+                            </form>
+                        </td>
+                    </tr>
+                @endforeach
+            </tbody>
+        </table>
+
     </div>
-    <!-- / Layout wrapper -->
+</div>
+@endsection
 
-    
+@push('scripts')
+<script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
 
-    <!-- Core JS -->
-    <!-- build:js assets/vendor/js/core.js')}} -->
-    <script src="{{ asset('Admin/vendor/libs/jquery/jquery.js')}}"></script>
-    <script src="{{ asset('Admin/vendor/libs/popper/popper.js')}}"></script>
-    <script src="{{ asset('Admin/vendor/js/bootstrap.js')}}"></script>
-    <script src="{{ asset('Admin/vendor/libs/perfect-scrollbar/perfect-scrollbar.js')}}"></script>
-
-    <script src="{{ asset('Admin/vendor/js/menu.js')}}"></script>
-    <!-- endbuild -->
-
-    <!-- Vendors JS -->
-    <script src="{{ asset('Admin/vendor/libs/apex-charts/apexcharts.js')}}"></script>
-
-    <!-- Main JS -->
-    <script src="{{ asset('Admin/js/main.js')}}"></script>
-
-    <!-- Page JS -->
-    <script src="{{ asset('Admin/js/dashboards-analytics.js')}}"></script>
-
-    <!-- Place this tag in your head or just before your close body tag. -->
-    <script async defer src="https://buttons.github.io/buttons.js')}}"></script>
-    @endsection
-
-    @push('scripts')
-      <!-- DataTables JS -->
-              <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-            <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
-            <script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
-          <script>
-        
-          $('#dataRuangan').DataTable({
-            responsive: true,
-            autoWidth: false,
-            scrollX:true
-          });
-      
-      </script>
-      <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
-function confirmDelete(form) {
+$('#dataRuangan').DataTable({
+    responsive: true,
+    autoWidth: false,
+    scrollX: true
+});
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+function confirmDelete(event, form) {
     event.preventDefault();
     Swal.fire({
         title: 'Yakin mau hapus?',
@@ -159,10 +156,6 @@ function confirmDelete(form) {
             form.submit();
         }
     });
-    return false;
 }
 </script>
-
 @endpush
-
-  

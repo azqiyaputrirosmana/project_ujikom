@@ -6,6 +6,7 @@ use App\Models\Fasilitas;
 use App\Models\Kategori;
 use App\Models\Lantai;
 use App\Models\Ruangan;
+use App\Models\FotoRuangan;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -13,166 +14,207 @@ use RealRashid\SweetAlert\Facades\Alert;
 
 class RuanganController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
-        $ruangan =Ruangan::all();
+        $ruangan = Ruangan::with([
+            'kategori',
+            'lantai',
+            'fasilitas',
+            'galeri'
+        ])->get();
+
         $kategori = Kategori::all();
         $lantai = Lantai::all();
-        $fasilitas =Fasilitas::all();
-        
-        
-        return view('admin.ruangan.index', compact('ruangan', 'kategori','lantai', 'fasilitas'));
+        $fasilitas = Fasilitas::all();
+
+        return view('admin.ruangan.index', compact('ruangan', 'kategori', 'lantai', 'fasilitas'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
         $kategori = Kategori::all();
         $fasilitas = Fasilitas::all();
         $lantai = Lantai::all();
+
         return view('admin.ruangan.create', compact('kategori', 'fasilitas', 'lantai'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
         $request->validate([
             'nama_ruangan' => 'required|unique:ruangans,nama_ruangan',
             'kategori_id' => 'required',
-            'deskripsi' => 'nullable',
-            'gambar' => 'required',
-            'fasilitas_id' => 'nullable',
-            'lantai_id' => 'required'
-        ],
-        [
-            'nama_ruangan' => 'Nama ruangan tidak boleh sama',
-            'kategori_id' => 'Pilih salah satu kategori',
-            'gambar' => 'Masukkan gambar ruangan',
-            'lantai_id' => 'Pilih lokasi ruangan',
+            'lantai_id' => 'required',
+            'gambar' => 'required|image|max:5120',
+            'denah' => 'nullable|image|max:5120',
+            'gambar_detail' => 'required|array|min:1|max:5',
+            'gambar_detail.*' => 'image|max:5120'
         ]);
 
-        $data = $request->only(['nama_ruangan', 'kategori_id', 'deskripsi', 'lantai_id', 'gambar', 'denah']);
+        $data = $request->only([
+            'nama_ruangan',
+            'kategori_id',
+            'deskripsi',
+            'lantai_id'
+        ]);
+
         if ($request->hasFile('gambar')) {
-            $path = $request->file('gambar')->store('gambar_ruangan', 'public'); 
-            $data['gambar'] = $path;
+            $data['gambar'] = $request->file('gambar')->store('gambar_ruangan', 'public');
         }
 
         if ($request->hasFile('denah')) {
-            $path = $request->file('denah')->store('gambar_denah', 'public'); 
-            $data['denah'] = $path;
+            $data['denah'] = $request->file('denah')->store('gambar_denah', 'public');
         }
 
         $ruangan = Ruangan::create($data);
-        $request->all($data);
+
         if ($request->has('fasilitas_id')) {
             $ruangan->fasilitas()->attach($request->fasilitas_id);
-
         }
-        $request->all($data);
-        
-        Alert('Data Ruangan berhasil ditambahkan', 'success');
+
+        if ($request->hasFile('gambar_detail')) {
+            foreach ($request->file('gambar_detail') as $foto) {
+                $path = $foto->store('foto_ruangan', 'public');
+
+                FotoRuangan::create([
+                    'ruangan_id' => $ruangan->id,
+                    'gambar' => $path
+                ]);
+            }
+        }
+
+        Alert::success('Sukses', 'Data Ruangan berhasil ditambahkan');
         return redirect()->route('ruangan.index');
     }
 
-    /**
-     * Display the specified resource.
-     */
     public function show(string $id)
     {
-        $ruangan = Ruangan::findOrFail($id);
+        $ruangan = Ruangan::with(['galeri', 'fasilitas', 'kategori', 'lantai'])->findOrFail($id);
         $kategori = Kategori::all();
         $fasilitas = Fasilitas::all();
         $fasilitas_terpilih = $ruangan->fasilitas->pluck('id')->toArray();
         $lantai = Lantai::all();
-        return view('admin.ruangan.show', compact('ruangan', 'kategori', 'fasilitas', 'lantai', 'fasilitas_terpilih'));
+
+        return view('admin.ruangan.show', compact(
+            'ruangan',
+            'kategori',
+            'fasilitas',
+            'lantai',
+            'fasilitas_terpilih'
+        ));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
     public function edit(string $id)
     {
-        $ruangan = Ruangan::with('fasilitas')->findOrFail($id);
+        $ruangan = Ruangan::with(['fasilitas', 'galeri'])->findOrFail($id);
         $kategori = Kategori::all();
         $fasilitas = Fasilitas::all();
         $fasilitas_terpilih = $ruangan->fasilitas->pluck('id')->toArray();
         $lantai = Lantai::all();
 
-    return view('admin.ruangan.edit', compact('ruangan', 'fasilitas', 'fasilitas_terpilih', 'kategori', 'lantai'));
-}
+        return view('admin.ruangan.edit', compact(
+            'ruangan',
+            'fasilitas',
+            'fasilitas_terpilih',
+            'kategori',
+            'lantai'
+        ));
+    }
 
-        
-
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(Request $request, string $id)
     {
-        $ruangan = Ruangan::findOrFail($id);
+        $ruangan = Ruangan::with('galeri')->findOrFail($id);
+
         $request->validate([
             'nama_ruangan' => 'required',
             'kategori_id' => 'required',
-            'deskripsi' => 'nullable',
-            'gambar' => 'required',
-            'fasilitas_id' => 'nullable',
             'lantai_id' => 'required',
-            'denah' => 'required'
-        ],
-        [
-            'nama_ruangan' => 'Nama ruangan harus diisi',
-            'kategori_id' => 'Pilih salah satu kategori',
-            'gambar' => 'Masukkan gambar ruangan',
-            'lantai_id' => 'Pilih lokasi ruangan',
-            'denah' => 'Masukkan gambar denah'
+            'gambar' => 'nullable|image|max:5120',
+            'denah' => 'nullable|image|max:5120',
+            'gambar_detail.*' => 'image|max:5120'
         ]);
 
-        $data = $request->only(['nama_ruangan', 'kategori_id', 'deskripsi', 'lantai_id', 'gambar']);
-        
-        if ($ruangan->gambar && Storage::disk('public')->exists($ruangan->gambar)) {
-            $ruangan->deleteImage();
-        }
-        $path = $request->file('gambar')->store('gambar_ruangan', 'public'); 
-        $data['gambar'] = $path;
+        if ($request->hasFile('gambar_detail')) {
+            $totalFoto = $ruangan->galeri->count() + count($request->file('gambar_detail'));
 
+            if ($totalFoto > 5) {
+                return back()
+                    ->withErrors(['gambar_detail' => 'Total foto galeri maksimal 5'])
+                    ->withInput();
+            }
+        }
+
+        $data = $request->only([
+            'nama_ruangan',
+            'kategori_id',
+            'deskripsi',
+            'lantai_id'
+        ]);
+
+        if ($request->hasFile('gambar')) {
+            if ($ruangan->gambar) {
+                $ruangan->deleteImage();
+            }
+            $data['gambar'] = $request->file('gambar')->store('gambar_ruangan', 'public');
+        }
 
         if ($request->hasFile('denah')) {
             if ($ruangan->denah) {
-                $ruangan->deleteImage();
-               
+                $ruangan->deleteDenah();
             }
-             $path = $request->file('denah')->store('gambar_denah', 'public'); 
-                $data['denah'] = $path;
+            $data['denah'] = $request->file('denah')->store('gambar_denah', 'public');
         }
 
         $ruangan->update($data);
-
         $ruangan->fasilitas()->sync($request->fasilitas_id ?? []);
+
+        if ($request->hasFile('gambar_detail')) {
+            foreach ($request->file('gambar_detail') as $foto) {
+                $path = $foto->store('foto_ruangan', 'public');
+
+                FotoRuangan::create([
+                    'ruangan_id' => $ruangan->id,
+                    'gambar' => $path
+                ]);
+            }
+        }
 
         toast('Ruangan berhasil diperbarui', 'success')->position('bottom-end');
         return redirect()->route('ruangan.index');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(string $id)
     {
         $ruangan = Ruangan::findOrFail($id);
+
         if ($ruangan->gambar) {
-                Storage::disk('public')->delete($ruangan->gambar);
-            }
+            Storage::disk('public')->delete($ruangan->gambar);
+        }
 
         $ruangan->fasilitas()->detach();
+        $ruangan->deleteImage();
+        $ruangan->deleteDenah();
         $ruangan->delete();
 
-        toast('Ruangan berhasil dihapus', 'success')->position('bottom-end`');
+        toast('Ruangan berhasil dihapus', 'success')->position('bottom-end');
         return back();
+    }
+
+    // ✅ FIX ERROR DI SINI (PALING PENTING)
+    public function destroyFoto($id)
+    {
+        $foto = FotoRuangan::find($id);
+
+        if (!$foto) {
+            return back();
         }
+
+        if ($foto->gambar && Storage::disk('public')->exists($foto->gambar)) {
+            Storage::disk('public')->delete($foto->gambar);
+        }
+
+        $foto->delete();
+
+        return back();
+    }
 }

@@ -1,4 +1,16 @@
-<aside id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+
+
+  <link rel="stylesheet" href="{{ asset('Admin/vendor/fonts/boxicons.css')}}" />
+
+</head>
+<body>
+    <aside id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme">
           <div class="app-brand demo">
             <a href="index.html" class="app-brand-link">
               <span class="app-brand-logo demo">
@@ -68,9 +80,13 @@
 
           <ul class="menu-inner py-1">
             <!-- Dashboard -->
+            <li class="menu-header small text-uppercase">
+              <span class="menu-header-text">Dashboard</span>
+            </li>
             <li class="menu-item">
               <a href="{{ route('admin.index') }}" class="menu-link">
-                <i class="menu-icon tf-icons bx bx-home-circle"></i>
+                <i class="menu-icon tf-icons bx bxs-data"></i>
+                 
                 <div data-i18n="Analytics">Dashboard</div>
               </a>
             </li>
@@ -81,33 +97,39 @@
             
             
             @if (Auth::user()->role == 1)
+              <li class="menu-header small text-uppercase">
+              <span class="menu-header-text">Petugas</span>
+            </li>
             <li class="menu-item">
               <a href="{{ route('petugas.index') }}" class="menu-link">
-                <i class="menu-icon tf-icons bx bx-collection"></i>
+                <i class="menu-icon tf-icons bx bxs-user-plus"></i>
                 <div data-i18n="Basic">Petugas</div>
               </a>
             </li>
-            <li class="menu-item">
+            <li class="menu-header small text-uppercase">
+              <span class="menu-header-text">Ruangan</span>
+            </li>
+              <li class="menu-item">
               <a href="{{route('fasilitas.index')}}" class="menu-link">
-                <i class="menu-icon tf-icons bx bx-collection"></i>
+                <i class="menu-icon tf-icons bx  bx-desktop"></i> 
                 <div data-i18n="Basic">Fasilitas</div>
               </a>
             </li>
             <li class="menu-item">
               <a href="{{ route('gedung.index') }}" class="menu-link">
-                <i class="menu-icon tf-icons bx bx-collection"></i>
+                <i class="menu-icon tf-icons bx bxs-buildings"></i>
                 <div data-i18n="Basic">Gedung</div>
               </a>
             </li>
             <li class="menu-item">
               <a href="{{route('lantai.index')}}" class="menu-link">
-                <i class="menu-icon tf-icons bx bx-collection"></i>
+                <i class="menu-icon tf-icons bx bxs-layer"></i>
                 <div data-i18n="Basic">Lantai</div>
               </a>
             </li>
             <li class="menu-item">
               <a href="{{route('kategori.index')}}" class="menu-link">
-                <i class="menu-icon tf-icons bx bx-collection"></i>
+                <i class="menu-icon tf-icons bx bxs-category"></i>
                 <div data-i18n="Basic">Kategori</div>
               </a>
             </li>
@@ -115,20 +137,24 @@
             
             <li class="menu-item">
               <a href="{{route('ruangan.index')}}" class="menu-link">
-                <i class="menu-icon tf-icons bx bx-collection"></i>
+                <i class="menu-icon tf-icons bx bx-home-alt"></i>
                 <div data-i18n="Basic">Ruangan</div>
               </a>
             </li>
             @else
+              <li class="menu-header small text-uppercase">
+              <span class="menu-header-text">Ruangan</span>
+            </li>
              <li class="menu-item">
               <a href="{{route('fasilitas.index')}}" class="menu-link">
-                <i class="menu-icon tf-icons bx bx-collection"></i>
+                <i class="menu-icon tf-icons bx  bx-desktop"></i> 
                 <div data-i18n="Basic">Fasilitas</div>
               </a>
             </li>
-            <li class="menu-item">
+            
+             <li class="menu-item">
               <a href="{{route('ruangan.index')}}" class="menu-link">
-                <i class="menu-icon tf-icons bx bx-collection"></i>
+                <i class="menu-icon tf-icons bx bx-home-alt"></i>
                 <div data-i18n="Basic">Ruangan</div>
               </a>
             </li>
@@ -143,3 +169,7 @@
             
           </ul>
         </aside>
+</body>
+</html>
+
+

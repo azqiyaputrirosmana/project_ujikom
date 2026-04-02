@@ -2,192 +2,246 @@
 * Template Name: Archiark
 * Template Author: Untree.co
 * Tempalte URI: https://untree.co/
-* License: https://creativecommons.org/licenses/by/3.0/
 */ -->
 <!doctype html>
 <html lang="en">
 <head>
-	<!-- Required meta tags -->
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	
+
 	<meta name="author" content="Untree.co">
 	<link rel="shortcut icon" href="favicon.png">
-
-	<meta name="description" content="" />
-	<meta name="keywords" content="bootstrap, bootstrap5" />
 
 	<link rel="preconnect" href="https://fonts.gstatic.com">
 	<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Roboto&display=swap" rel="stylesheet">
 
-	<link rel="stylesheet" href="{{  asset('Front/fonts/icomoon/style.css')}}">
-	<link rel="stylesheet" href="{{  asset('Front/fonts/flaticon/font/flaticon.css')}}">
+	<link rel="stylesheet" href="{{ asset('Front/fonts/icomoon/style.css')}}">
+	<link rel="stylesheet" href="{{ asset('Front/fonts/flaticon/font/flaticon.css')}}">
 	<link rel="stylesheet" href="{{ asset('Front/css/tiny-slider.css')}}">
 	<link rel="stylesheet" href="{{ asset('Front/css/aos.css')}}">
 	<link rel="stylesheet" href="{{ asset('Front/css/glightbox.min.css')}}">
 	<link rel="stylesheet" href="{{ asset('Front/css/style.css')}}">
 
-	<title>Archiark &mdash; Free Bootstrap 5 Website Template by Untree.co</title>
+	<title>SIG — Website Sistem Informasi Geografis</title>
+
+	<style>
+		/* ================= TAMBAHAN ESTETIK ================= */
+
+		body {
+			background: linear-gradient(180deg, #eaf6ff, #f4fbff);
+			position: relative;
+			overflow-x: hidden;
+		}
+
+		.floating-emoji {
+			position: fixed;
+			font-size: 24px;
+			opacity: 0.35;
+			animation: floatEmoji 18s linear infinite;
+			z-index: 0;
+			pointer-events: none;
+		}
+
+		@keyframes floatEmoji {
+			0% { transform: translateY(110vh) rotate(0deg); }
+			100% { transform: translateY(-120vh) rotate(360deg); }
+		}
+
+		/* ====== SEARCH ESTETIC (TAMBAHAN SAJA) ====== */
+
+		.sec-5 .form-control {
+			border-radius: 12px;
+			border: 2px solid #b7dbff;
+			padding: 10px 14px;
+			font-size: 15px;
+			transition: all .3s ease;
+			box-shadow: 0 8px 20px rgba(0, 123, 255, 0.08);
+		}
+
+		.sec-5 .form-control:focus {
+			border-color: #4da3ff;
+			box-shadow: 0 10px 25px rgba(0, 123, 255, 0.25);
+			outline: none;
+		}
+
+		.sec-5 button[type="submit"] {
+			background: linear-gradient(135deg, #4da3ff, #2b7bff) !important;
+			color: #fff !important;
+			border-radius: 12px !important;
+			font-weight: 600;
+			box-shadow: 0 10px 25px rgba(0, 123, 255, 0.35);
+			transition: all .3s ease;
+		}
+
+		.sec-5 button[type="submit"]:hover {
+			transform: translateY(-2px);
+			box-shadow: 0 14px 35px rgba(0, 123, 255, 0.45);
+			background: linear-gradient(135deg, #2b7bff, #1a5fd0) !important;
+		}
+
+		.simple-slider {
+			display: flex;
+			gap: 20px;
+			overflow-x: auto;
+			scroll-behavior: smooth;
+			padding-bottom: 10px;
+		}
+		.simple-slider::-webkit-scrollbar { display: none; }
+		.simple-slider img {
+			height: 230px;
+			border-radius: 15px;
+			flex-shrink: 0;
+		}
+
+		.hero-slider {
+			position: absolute;
+			inset: 0;
+			z-index: 0;
+		}
+		.hero-slide {
+			position: absolute;
+			inset: 0;
+			background-size: cover;
+			background-position: center;
+			opacity: 0;
+			transition: opacity 1.5s ease-in-out;
+		}
+		.hero-slide.active { opacity: 1; }
+	</style>
 </head>
+
 <body>
 
-	<div class="site-mobile-menu site-navbar-target">
-		<div class="site-mobile-menu-header">
-			<div class="site-mobile-menu-close">
-				<span class="icofont-close js-menu-toggle"></span>
-			</div>
-		</div>
-		<div class="site-mobile-menu-body"></div>
-	</div>
+<!-- ============ EMOJI TERBANG (HIASAN) ============ -->
+<span class="floating-emoji" style="left:5%; animation-delay:0s;">🏫</span>
+<span class="floating-emoji" style="left:20%; animation-delay:6s;">📚</span>
+<span class="floating-emoji" style="left:40%; animation-delay:3s;">🎒</span>
+<span class="floating-emoji" style="left:65%; animation-delay:9s;">📝</span>
+<span class="floating-emoji" style="left:85%; animation-delay:1s;">📐</span>
 
-	<nav class="site-nav">
-		<div class="container">
-			<div class="site-navigation">
-				<a href="{{ route('front.index') }}" class="logo m-0 float-start">SIG<span class="text-primary">.</span> </a>
+<nav class="site-nav">
+	<div class="container-lg-1">
+		<div class="site-navigation">
+			<a href="{{ route('front.index') }}" class="logo m-0 float-start ms-3">
+				SI-PETA SEKOLAH<span class="text-primary">.</span>
+			</a>
 
-				<ul class="js-clone-nav d-none d-lg-inline-block text-start site-menu float-start">
-					<li class="active"><a href="{{ route('tentang') }}">Home</a></li>
-					
-					<li><a href="{{ route('tentang') }}">Tentang</a></li>
-			
-				</ul>
-
-				
-
-				<a href="#" class="burger ml-auto float-end site-menu-toggle light js-menu-toggle d-inline-block d-lg-none" data-toggle="collapse" data-target="#main-navbar">
-					<span></span>
-				</a>
-				<ul class="site-menu float-end d-none d-md-block">
-					<li><a href="https://www.google.com/maps/place/SMK+Assalaam+Bandung+(PUSAT+KEUNGGULAN)/@-6.9665028,107.5918764,18z/data=!4m6!3m5!1s0x2e68e8deccecb6f1:0x658cc60fbe5017b9!8m2!3d-6.9667025!4d107.5926328!16s%2Fg%2F11b6hnkk0s?entry=ttu&g_ep=EgoyMDI1MDcwOS4wIKXMDSoASAFQAw%3D%3D" class="d-flex align-items-center text-white h2 fw-bold"><span class="icon-loc "></span> <span>Jl. Situ Tarate Jl. Cibaduyut, Cangkuang Kulon, Kec. Dayeuhkolot, Kabupaten Bandung, Jawa Barat 40265</span></a></li>
-				</ul>
-				
-
-			</div>
-		</div>
-	</nav>
-
-	<div class="hero-2 overlay" style="background-image: url('{{ asset('front/Aula.jpg') }}');">
-		<div class="container">
-			<div class="row align-items-center">
-				<div class="col-lg-5 mx-auto">
-					<h1 class="mb-5"><span>Selamat Datang di</span> <span class="d-block">Sistem Informasi</span> <span class="d-block">Geografis</span><span class="d-block">SMK Assalaam Bandung</span></h1>
-
-					
-
-					<div class="intro-desc">
-						<div class="line"></div>
-						<p></p>
-					</div>
-				</div>
-			</div>
-			<ul class="site-menu float-end d-none d-md-block">
-					<li><a href="https://www.google.com/maps/place/SMK+Assalaam+Bandung+(PUSAT+KEUNGGULAN)/@-6.9665028,107.5918764,18z/data=!4m6!3m5!1s0x2e68e8deccecb6f1:0x658cc60fbe5017b9!8m2!3d-6.9667025!4d107.5926328!16s%2Fg%2F11b6hnkk0s?entry=ttu&g_ep=EgoyMDI1MDcwOS4wIKXMDSoASAFQAw%3D%3D" class="d-flex align-items-center text-white h2 fw-bold"><span class="icon-phone me-2"></span> <span>Jl. Situ Tarate Jl. Cibaduyut, Cangkuang Kulon, Kec. Dayeuhkolot, Kabupaten Bandung, Jawa Barat 40265</span></a></li>
-				</ul>
-		</div>
-	</div>
-
-
-	
-
-	
-	
-
-
-	<div class="section sec-5">
-		<div class="container">
-			<div class="row mb-5">
-				
-
-				<div class="col-lg-6">
-					<h2 class="heading">Ruangan</h2>
-				</div>
-				
-			</div>
-
-
-
-			<ul class="d-flex justify-content-center">
-				@foreach ($lantai->unique('gedung_id') as $lokasi)
-				@if($lokasi->gedung->nama_gedung !== 'Lainnya')
-				<li class="mx-2 btn" >
-					<a href="{{ route('ruangan.filter', $lokasi->gedung->id) }}"
-					class="{{ (isset($pilihGedung) && $pilihGedung->id == $lokasi->gedung->id) ? 'fw-bold text-primary' : '' }} btn btn-primary rounded" >
-						<span style="text-decoration: none;">{{ $lokasi->gedung->nama_gedung }}</span>
-					</a>
-				</li>
-				@endif
-				@endforeach
-			
-			@foreach ($lantai as $lokasi)
-				@if($lokasi->gedung->nama_gedung == 'Lainnya')
-					<li class="mx-2 btn">
-					<a href="{{ route('ruangan.filter', $lokasi->gedung->id) }}"
-						class="{{ (isset($pilihGedung) && $pilihGedung->id == $lokasi->gedung->id) ? 'fw-bold text-primary' : '' }} btn btn-primary rounded">
-						<span style="text-decoration: none;">{{ $lokasi->gedung->nama_gedung }}</span>
-					</a>
-					</li>
-				@endif
-			@endforeach
+			<ul class="js-clone-nav d-none d-lg-inline-block text-start site-menu float-start">
+				<li class="active"><a href="{{ route('front.index') }}">Home</a></li>
+				<li><a href="{{ route('tentang') }}">Tentang</a></li>
 			</ul>
 
-			<div class="row row-cols-1 row-cols-sm-2 row-cols-md-2 row-cols-lg-3 g-4">
-        @foreach ($ruangan as $ruang)
-				<div class="col">
-					<div class="single-portfolio">
-						<a href="{{route('detail.show', $ruang->id)}}">
-							<img src="{{asset('storage/'. $ruang->gambar)}}" alt="Image" style="max-height: 265px;object-fit:cover;" height="265px" class="img-fluid">
-							<div class="contents">
-								<h3>{{ $ruang->nama_ruangan }}</h3>
-								<div class="cat">{{ $ruang->kategori->nama_kategori }}</div>
-							</div>
-						</a>
-					</div>
-				</div>
-        @endforeach
-			
+			<ul class="site-menu float-end d-none d-md-block">
+				<li>
+					<a href="https://www.google.com/maps/place/SMK+Assalaam+Bandung"
+					   class="d-flex align-items-center text-white h2 fw-bold">
+						<span class="icon-loc"></span>
+						<span>
+							Jl. Situ Tarate Jl. Cibaduyut, Cangkuang Kulon,
+							Kec. Dayeuhkolot, Kabupaten Bandung,
+							Jawa Barat 40265
+						</span>
+					</a>
+				</li>
+			</ul>
+		</div>
+	</div>
+</nav>
+
+<!-- ================= HERO ================= -->
+<div class="hero-2 overlay position-relative"
+	style="background-image: url('{{ asset('Front/logo.hitam.jpg') }}');">
+
+	<div class="hero-slider">
+		<div class="hero-slide active" style="background-image:url('{{ asset('Front/smk.jpg') }}')"></div>
+		<div class="hero-slide" style="background-image:url('{{ asset('Front/sakola.jpg') }}')"></div>
+		<div class="hero-slide" style="background-image:url('{{ asset('Front/rpl1.jpg') }}')"></div>
+	</div>
+
+	<div class="container position-relative" style="z-index:2;">
+		<div class="row align-items-center">
+			<div class="col-lg-8 mx-auto">
+				<h1 class="mb-5 text-white fw-bold">
+					<span>Selamat Datang di</span>
+					<span class="d-block">Peta Sekolah</span>
+					<span class="d-block">Interaktif 🏫🧑‍🏫</span>
+				</h1>
 			</div>
 		</div>
 	</div>
+</div>
 
+<!-- ================= GALERI ================= -->
+<div class="section bg-light">
+	<div class="container">
+		<h2 class="heading text-center mb-4">Galeri Sekolah</h2>
+		<div class="simple-slider">
+			<img src="{{ asset('Front/rpl.jpg') }}">
+			<img src="{{ asset('Front/tkr.jpg') }}">
+			<img src="{{ asset('Front/tsm.jpeg') }}">
+			<img src="{{ asset('Front/t brsama.JPG') }}">
+			<img src="{{ asset('Front/kunjin.jpg') }}">
+			<img src="{{ asset('Front/musikalisasi.jpg') }}">
+		</div>
+	</div>
+</div>
 
+<!-- ================= RUANGAN ================= -->
+<div class="section sec-5">
+	<div class="container">
+		<div class="row mb-5 d-flex justify-content-between align-items-center">
+			<div class="col-lg-8">
+				<h2 class="heading">Ruangan</h2>
+			</div>
 
-	
+			<div class="col-lg-3">
+				<form method="GET" action="{{ route('front.index') }}">
+					<input type="text"
+						   name="search"
+						   value="{{ request('search') }}"
+						   placeholder="Cari ruangan..."
+						   class="form-control">
+			</div>
 
-
-	
-
-
-	
-
-	<div class="site bg-light">
-		<div class="container">
-			<div class="row justify-content-center text-center copyright">
-				<div class="col-md-8 ">
-					<p class="small text-black-50 mt-2">Copyright &copy;<script>document.write(new Date().getFullYear());</script>. Website SIG &mdash; Projek pkl internal 
-					</p>
-				</div>
+			<div class="col-lg-1">
+					<button type="submit"
+						style="width:100%;height:38px;background:black;color:white;border:none;border-radius:5px;">
+						Cari
+					</button>
+				</form>
 			</div>
 		</div>
-	</div>
 
-
-	
-
-
-	<!-- Preloader -->
-	<div id="overlayer"></div>
-	<div class="loader">
-		<div class="spinner-border" role="status">
-			<span class="visually-hidden">Loading...</span>
+		<div class="row row-cols-1 row-cols-sm-2 row-cols-md-2 row-cols-lg-3 g-4">
+			@foreach ($ruangan as $ruang)
+			<div class="col">
+				<div class="single-portfolio">
+					<a href="{{ route('detail.show', $ruang->id) }}">
+						<img src="{{ asset('storage/'.$ruang->gambar) }}"
+							 class="img-fluid"
+							 style="height:260px;object-fit:cover;">
+						<div class="contents">
+							<h3>{{ $ruang->nama_ruangan }}</h3>
+							<div class="cat">{{ $ruang->kategori->nama_kategori }}</div>
+						</div>
+					</a>
+				</div>
+			</div>
+			@endforeach
 		</div>
 	</div>
+</div>
 
-	<script src="{{ asset('Front/js/bootstrap.bundle.min.js')}}"></script>
-	<script src="{{ asset('Front/js/tiny-slider.js')}}"></script>
-	<script src="{{ asset('Front/js/aos.js')}}"></script>
-	<script src="{{ asset('Front/js/glightbox.min.js')}}"></script>
-	<script src="{{ asset('Front/js/navbar.js')}}"></script>
-	<script src="{{ asset('Front/js/counter.js')}}"></script>
-	<script src="{{ asset('Front/js/custom.js')}}"></script>
+<script>
+	const heroSlides = document.querySelectorAll('.hero-slide');
+	let heroIndex = 0;
+
+	setInterval(() => {
+		heroSlides[heroIndex].classList.remove('active');
+		heroIndex = (heroIndex + 1) % heroSlides.length;
+		heroSlides[heroIndex].classList.add('active');
+	}, 4000);
+</script>
+
 </body>
 </html>

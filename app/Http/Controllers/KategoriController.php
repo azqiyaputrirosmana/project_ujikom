@@ -43,7 +43,7 @@ class KategoriController extends Controller
         $kategori ->kategori = $request->kategori;
         $kategori->save();
 
-        toast('Kategori berhasil diperbarui', 'success')->position('bottom-end');
+        toast('Kategori berhasil ditambah', 'success')->position('bottom-end');
         return redirect()->route('kategori.index');
     }
 
@@ -78,7 +78,7 @@ class KategoriController extends Controller
         $kategori->kategori = $request->kategori;
         $kategori->save();
 
-        toast('kategori berhasil dihapus', type: 'success')->position('bottom-end');
+        toast('kategori berhasil diperbarui', type: 'success')->position('bottom-end');
         return redirect()->route('kategori.index')->with('success', 'Kategori updated successfully.');
     }
 

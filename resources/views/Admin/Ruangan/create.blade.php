@@ -1,207 +1,100 @@
-<!DOCTYPE html>
+@extends('layouts.admin')
 
-<html
-  lang="en"
-  class="light-style layout-menu-fixed"
-  dir="ltr"
-  data-theme="theme-default"
-  data-assets-path="{{ asset('Admin/') }}"
-  data-template="vertical-menu-template-free"
->
-  <head>
-    <meta charset="utf-8" />
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0"
-    />
+@section('content')
+<div class="content-wrapper">
+    <div class="container-xxl container-p-y">
 
-    <title>Dashboard - Analytics | Sneat - Bootstrap 5 HTML Admin Template - Pro</title>
+        <h4 class="fw-bold mb-4">Tambah Ruangan</h4>
 
-    <meta name="description" content="" />
+        <form action="{{ route('ruangan.store') }}" method="POST" enctype="multipart/form-data">
+            @csrf
 
-    <!-- Favicon -->
-    <link rel="icon" type="image/x-icon" href="{{ asset('Admin/img/favicon/favicon.icon')}}" />
-
-    <!-- Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap"
-      rel="stylesheet"
-    />
-
-    <!-- Icons. Uncomment required icon fonts -->
-    <link rel="stylesheet" href="{{ asset('Admin/vendor/fonts/boxicons.css')}}" />
-
-    <!-- Core CSS -->
-    <link rel="stylesheet" href="{{ asset('Admin/vendor/css/core.css')}}" class="template-customizer-core-css" />
-    <link rel="stylesheet" href="{{ asset('Admin/vendor/css/theme-default.css')}}" class="template-customizer-theme-css" />
-    <link rel="stylesheet" href="{{ asset('Admin/css/demo.css')}}" />
-
-    <!-- Vendors CSS -->
-    <link rel="stylesheet" href="{{ asset('Admin/vendor/libs/perfect-scrollbar/perfect-scrollbar.css')}}" />
-
-    <link rel="stylesheet" href="{{ asset('Admin/vendor/libs/apex-charts/apex-charts.css')}}" />
-
-    <!-- Page CSS -->
-   <!-- DataTables CSS -->
-      <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css">
-
-      
-
-    <!-- Helpers -->
-    <script src="{{ asset('Admin/vendor/js/helpers.js')}}"></script>
-
-
-
-    <!--! Template customizer & Theme config files MUST be included after core stylesheets and helpers.js')}} in the <head> section -->
-    <!--? Config:  Mandatory theme config file contain global vars & default theme options, Set your preferred theme option in this file.  -->
-    <script src="{{ asset('Admin/js/config.js')}}"></script>
-  </head>
-
-  <body>
-    <!-- Layout wrapper -->
-    <div class="layout-wrapper layout-content-navbar">
-      <div class="layout-container">
-        <!-- Menu -->
-        @include('layouts.admin.sidebar')
-        
-        <!-- / Menu -->
-
-        <!-- Layout container -->
-        <div class="layout-page">
-          <!-- Navbar -->
-
-          @include('layouts.admin.navbar')
-
-          <!-- / Navbar -->
-
-          <!-- Content wrapper -->
-          <div class="content-wrapper">
-            <!-- Content -->
-
-            <div class="container-xxl flex-grow-1 container-p-y">
-              <div class="row">
-                <div class="col">
-                    <h2>Tambah Data Ruangan</h2>
-                    @if ($errors->any())
-                                  <div class="alert alert-danger">
-                                      <ul>
-                                          @foreach ($errors->all() as $error)
-                                              <li>{{ $error }}</li>
-                                          @endforeach
-                                      </ul>
-                                  </div>
-                            @endif
-                  <form action="{{ route('ruangan.store') }}" class="form " enctype="multipart/form-data" method="post">
-                    @csrf
-                    <label for="" class="mt-2">Nama Ruangan</label>
-                    <input type="text" class="form-control" name="nama_ruangan">
-
-                    <label for="" class="mt-2" >Kategori</label>
-                    <select name="kategori_id" id="" class="form-select ">
-                      <option value="" disabled selected>Pilih kategori ruangan</option>
-                        @foreach ($kategori as $kat)
-                            <option value="{{ $kat->id }}">{{ $kat->kategori }}</option>
-                        @endforeach
-                    </select>
-
-                    <label for="" class="mt-2">
-                         Lokasi
-                    </label >
-                    <select name="lantai_id" id="" class="form-select ">
-                      <option value="" disabled selected>Pilih lokasi ruangan</option>
-                        @foreach ($lantai as $lokasi)
-                          
-                            <option value="{{ $lokasi->id }}">Lantai {{ $lokasi->lantai }}  Gedung {{ $lokasi->gedung->nama_gedung }}</option>
-                        @endforeach
-                    </select>
-                    <label  class="mt-2">
-                        Fasilitas
-                    </label><br>
-                    
-                       @foreach ($fasilitas as $fas)
-                     <input type="checkbox" name="fasilitas_id[]"  class="form-checkbox mt-1" id="checkbox" value="{{ $fas->id }}"> 
-                     <span for="#checkbox"> {{ $fas->nama_fasilitas }}</span> <br>
-                     
-                       @endforeach
-                    <br>
-                    <label for="" class="mt-2">
-                        Deskripsi
-                    </label>
-                    <textarea name="deskripsi" id="" class="form-control"></textarea>
-
-                    <label for="" class="mt-2">
-                        Gambar
-                    </label>
-                    <input type="file" class="form-control" name="gambar">
-
-                    <label for="" class="mt-2">
-                        Denah
-                    </label>
-                    <input type="file" class="form-control" name="denah">
-                    
-                    <button type="submit" class="btn btn-info mt-2">Tambah</button>
-                  </form>
-                </div>
-              </div>
+            {{-- NAMA RUANGAN --}}
+            <div class="mb-3">
+                <label class="form-label">Nama Ruangan</label>
+                <input type="text" name="nama_ruangan" class="form-control" required>
             </div>
-            <!-- / Content -->
 
-            <!-- Footer -->
-            
-            <!-- / Footer -->
+            {{-- KATEGORI --}}
+            <div class="mb-3">
+                <label class="form-label">Kategori</label>
+                <select name="kategori_id" class="form-control" required>
+                    <option value="">-- Pilih Kategori --</option>
+                    @foreach ($kategori as $k)
+                        <option value="{{ $k->id }}">{{ $k->kategori }}</option>
+                    @endforeach
+                </select>
+            </div>
 
-            <div class="content-backdrop fade"></div>
-          </div>
-          <!-- Content wrapper -->
-        </div>
-        <!-- / Layout page -->
-      </div>
+            {{-- LANTAI --}}
+            <div class="mb-3">
+                <label class="form-label">Lantai</label>
+                <select name="lantai_id" class="form-control" required>
+                    <option value="">-- Pilih Lantai --</option>
+                    @foreach ($lantai as $l)
+                        <option value="{{ $l->id }}">
+                            Lantai {{ $l->lantai }} - {{ $l->gedung->nama_gedung }}
+                        </option>
+                    @endforeach
+                </select>
+            </div>
 
-      <!-- Overlay -->
-      <div class="layout-overlay layout-menu-toggle"></div>
+            {{-- FASILITAS --}}
+            <div class="mb-3">
+                <label class="form-label">Fasilitas</label>
+                <div class="row">
+                    @foreach ($fasilitas as $f)
+                        <div class="col-md-3">
+                            <div class="form-check">
+                                <input
+                                    class="form-check-input"
+                                    type="checkbox"
+                                    name="fasilitas_id[]"
+                                    value="{{ $f->id }}"
+                                >
+                                <label class="form-check-label">
+                                    {{ $f->nama_fasilitas }}
+                                </label>
+                            </div>
+                        </div>
+                    @endforeach
+                </div>
+            </div>
+
+            {{-- GAMBAR UTAMA --}}
+            <div class="mb-3">
+                <label class="form-label">Gambar Utama</label>
+                <input type="file" name="gambar" class="form-control" required>
+            </div>
+
+            {{-- GALERI FOTO --}}
+            <div class="mb-3">
+                <label class="form-label">Galeri Foto (1-5 foto)</label>
+                <input type="file" name="gambar_detail[]" class="form-control" multiple accept="image/*" required>
+            </div>
+
+            {{-- DENAH --}}
+            <div class="mb-3">
+                <label class="form-label">Denah Ruangan</label>
+                <input type="file" name="denah" class="form-control" >
+            </div>
+
+            {{-- KETERANGAN --}}
+            <div class="mb-3">
+                <label class="form-label">Keterangan</label>
+                <textarea name="deskripsi" class="form-control" rows="4"></textarea>
+            </div>
+
+            <button type="submit" class="btn btn-primary">
+                Simpan
+            </button>
+
+            <a href="{{ route('ruangan.index') }}" class="btn btn-secondary">
+                Kembali
+            </a>
+
+        </form>
+
     </div>
-    <!-- / Layout wrapper -->
-
-    
-
-    <!-- Core JS -->
-    <!-- build:js assets/vendor/js/core.js')}} -->
-    <script src="{{ asset('Admin/vendor/libs/jquery/jquery.js')}}"></script>
-    <script src="{{ asset('Admin/vendor/libs/popper/popper.js')}}"></script>
-    <script src="{{ asset('Admin/vendor/js/bootstrap.js')}}"></script>
-    <script src="{{ asset('Admin/vendor/libs/perfect-scrollbar/perfect-scrollbar.js')}}"></script>
-
-    <script src="{{ asset('Admin/vendor/js/menu.js')}}"></script>
-    <!-- endbuild -->
-
-    <!-- Vendors JS -->
-    <script src="{{ asset('Admin/vendor/libs/apex-charts/apexcharts.js')}}"></script>
-
-    <!-- Main JS -->
-    <script src="{{ asset('Admin/js/main.js')}}"></script>
-
-    <!-- Page JS -->
-    <script src="{{ asset('Admin/js/dashboards-analytics.js')}}"></script>
-
-    <!-- Place this tag in your head or just before your close body tag. -->
-    <script async defer src="https://buttons.github.io/buttons.js')}}"></script>
-    
-    <!-- jQuery  -->
-      <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
-      <!-- DataTables JS -->
-      <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
-      <script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
-    <script>
-  $(document).ready(function () {
-    $('#dataGedung').DataTable({
-      responsive: true,
-      autoWidth: false
-    });
-  });
-</script>
-
-  </body>
-</html>
+</div>
+@endsection

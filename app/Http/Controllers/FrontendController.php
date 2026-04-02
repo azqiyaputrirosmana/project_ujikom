@@ -14,14 +14,18 @@ class FrontendController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(request $request)
     {
+         $search = $request->input('search');
+
+        $ruangan = Ruangan::where('nama_ruangan', 'like', "%{$search}%")->get();
+
         
         $kategori = Kategori::all();
-        $ruangan = Ruangan::all();
+        
         $fasilitas = Fasilitas::all();
         $lantai = Lantai::with('gedung')->get()->unique('gedung_id');
-        return view('welcome', compact('kategori', 'ruangan', 'fasilitas', 'lantai'));
+        return view('welcome', compact('kategori', 'ruangan', 'fasilitas', 'lantai', 'search'));
     }
 
     /**

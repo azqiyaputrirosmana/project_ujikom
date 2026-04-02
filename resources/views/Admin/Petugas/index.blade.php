@@ -86,7 +86,7 @@ function confirmDelete(form) {
     event.preventDefault();
     Swal.fire({
         title: 'Yakin mau hapus?',
-        text: 'Data akan hilang selamanya lho!',
+        text: 'Data tidak akan bisa kembali',
         icon: 'warning',
         showCancelButton: true,
         confirmButtonColor: '#e3342f',

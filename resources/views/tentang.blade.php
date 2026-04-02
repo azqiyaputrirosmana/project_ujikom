@@ -21,7 +21,7 @@
 	<link rel="stylesheet" href="{{ asset('Front/css/glightbox.min.css')}}">
 	<link rel="stylesheet" href="{{ asset('Front/css/style.css')}}">
 
-	<title>Archiark &mdash; Free Bootstrap 5 Website Template by Untree.co</title>
+	<title>SIG &mdash; Tentang</title>
 </head>
 <body>
     <div class="site-mobile-menu site-navbar-target">
@@ -36,7 +36,7 @@
 	<nav class="site-nav">
 		<div class="container">
 			<div class="site-navigation">
-				<a href="{{ route('front.index') }}" class="logo m-0 float-start">SIG<span class="text-primary">.</span> </a>
+				<a href="{{ route('front.index') }}" class="logo m-0 float-start">SI-PETA SEKOLAH<span class="text-primary">.</span> </a>
 
 				<ul class="js-clone-nav d-none d-lg-inline-block text-start site-menu float-start">
 					<li ><a href="{{ route('front.index') }}">Home</a></li>
@@ -60,7 +60,7 @@
 		<div class="container">
 			<div class="row align-items-center">
 				<div class="col-lg-5 mx-auto">
-					<h1 class="mb-5"><span>Halaman</span> <span class="d-block">Tentang</span></h1>
+					<h1 class="mb-5"><span>Halaman</span> <span class="d-block">Tentang Peta Sekolah Interaktif</span></h1>
 
 					
 
@@ -79,8 +79,8 @@
 		<div class="container">
 			<div class="row border-bottom mb-5 pb-5 justify-content-between">
 				<div class="col-lg-4 align-self-center mb-5">
-					<h2 class="heading mb-4">Projek Sistem Informasi Geografis SMK Assalaam</h2>
-					<p>Aplikasi Sistem Informasi Geografis (SIG) ini dibuat sebagai bentuk digitalisasi data ruangan dan fasilitas di lingkungan SMK Assalaam Bandung. Tujuannya adalah untuk memudahkan pengguna dalam mencari informasi tentang lokasi, fasilitas, dan detail tiap ruangan secara interaktif dan efisien.
+					<h2 class="heading mb-4">Projek Peta Sekolah Interaktif</h2>
+					<p>Aplikasi Peta Sekolah Interaktif (SI-PETA SEKOLAH) ini dibuat sebagai bentuk digitalisasi data ruangan dan fasilitas di lingkungan SMK Assalaam Bandung. Tujuannya adalah untuk memudahkan pengguna dalam mencari informasi tentang lokasi, fasilitas, dan detail tiap ruangan secara interaktif dan efisien.
 
                     </p>
                     <p>

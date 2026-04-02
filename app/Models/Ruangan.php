@@ -32,9 +32,29 @@ class Ruangan extends Model
         return $this->belongsToMany(Fasilitas::class, 'fasilitas_ruangan');
     }
 
-    public function deleteImage(){
-        if($this->gambar && file_exists(public_path('images/produk/'. $this->gambar))){
-            return unlink(public_path('images/produk/'. $this->gambar));
+    // ✅ KODE LAMA (TIDAK DIUBAH)
+    public function fotoRuangans()
+    {
+        return $this->hasMany(FotoRuangan::class);
+    }
+
+    // ✅ TAMBAHAN UNTUK GALERI DI INDEX
+    public function galeri()
+    {
+        return $this->hasMany(FotoRuangan::class, 'ruangan_id');
+    }
+
+    public function deleteImage()
+    {
+        if ($this->gambar && file_exists(public_path('storage/' . $this->gambar))) {
+            return unlink(public_path('storage/' . $this->gambar));
+        }
+    }
+
+    public function deleteDenah()
+    {
+        if ($this->denah && file_exists(public_path('storage/' . $this->denah))) {
+            return unlink(public_path('storage/' . $this->denah));
         }
     }
 }
